@@ -1,9 +1,15 @@
-	
-<div class="container" style="width: 400px">
-  <div style="color: blue; margin-bottom: 20px">
-    <h1>{{title}}</h1>
-    <h3>{{description}}</h3>
-  </div>
- 
-  <app-test-es></app-test-es>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<img src="../assets/images/logo.png" />
+    <div class="topnav">
+        <input type="text" placeholder="Wpisz frazę...">
+        <button onclick="test()">Szukaj</button>
+    </div> 
+    <h3 class="col-md-12 text-center">Elasticsearch server status: {{status}}</h3>
+</body>    
+</html>
