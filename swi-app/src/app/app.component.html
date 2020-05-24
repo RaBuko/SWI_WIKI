@@ -6,10 +6,11 @@
 </head>
 <body>
 	<img src="../assets/images/logo.png" />
-    <div class="topnav">
-        <input type="text" placeholder="Wpisz frazę...">
-        <button onclick="test()">Szukaj</button>
-    </div> 
-    <h3 class="col-md-12 text-center">Elasticsearch server status: {{status}}</h3>
+  <div class="topnav">
+      <input type="text" placeholder="Wpisz frazę..." [(ngModel)]="searchPhrase">
+      <button (click)="getDocuments(searchPhrase)">Szukaj</button>
+  </div> 
+  <h3 class="col-md-12 text-center">Elasticsearch server status: {{status}}</h3>
+  <textarea type="text" [(ngModel)]="output"></textarea>
 </body>    
 </html>

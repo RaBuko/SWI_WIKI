@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Client } from 'elasticsearch-browser';
 import * as elasticsearch from 'elasticsearch-browser';
+import { AppComponent } from './app.component';
  
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,13 @@ export class ElasticsearchService {
       requestTimeout: Infinity,
       body: 'hello!'
     });
+  }
+
+  sendRequest(query) : any {
+    console.log("SendRequest:" + query);    
+    return this.client.search({
+      q: query,
+      index: "enwikiquote",
+    })
   }
 }
