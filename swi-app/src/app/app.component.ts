@@ -36,6 +36,7 @@ export class AppComponent {
     console.log(query);
     this.es.sendRequest(query).then(response => {
       this.convertResponse(response.hits.hits);
+      this.sortResponses(SortType.noSort);
       console.log(response);
     }, error => {
       console.error(error);
@@ -54,6 +55,60 @@ export class AppComponent {
       this.responses.push(entry);
     });
   }
+
+  private sortResponses(sortingType: SortType) {
+    switch (sortingType) {
+      case SortType.noSort: return;
+      case SortType.lastEditDateAsc: {
+        this.sortResponsesByLastEditDateAsc();
+        break;
+      }
+      case SortType.lastEditDateDesc: {
+        this.sortResponsesByLastEditDateDesc();
+        break;
+      }
+      case SortType.creationDateAsc: {
+        this.sortResponsesByCreationDateAsc();
+        break;
+      }
+      case SortType.creationDateDesc: {
+        this.sortResponsesByCreationDateDesc();
+        break;
+      }
+    }
+  }
+
+  private sortResponsesByLastEditDateDesc() {
+    this.responses.sort(function(lhs: Entry, rhs: Entry) {
+      return rhs.lastEditDate.getTime() - lhs.lastEditDate.getTime();
+    })
+  }
+
+  private sortResponsesByCreationDateDesc() {
+    this.responses.sort(function(lhs: Entry, rhs: Entry) {
+      return rhs.creationDate.getTime() - lhs.creationDate.getTime();
+    })
+  }
+
+  private sortResponsesByLastEditDateAsc() {
+    this.responses.sort(function(lhs: Entry, rhs: Entry) {
+      return lhs.lastEditDate.getTime() - rhs.lastEditDate.getTime();
+    })
+  }
+
+  private sortResponsesByCreationDateAsc() {
+    this.responses.sort(function(lhs: Entry, rhs: Entry) {
+      return lhs.creationDate.getTime() - rhs.creationDate.getTime();
+    })
+  }
+}
+
+export enum SortType {
+  noSort,
+  creationDateAsc,
+  creationDateDesc,
+  lastEditDateAsc,
+  lastEditDateDesc
 }
 
 export class Entry {
