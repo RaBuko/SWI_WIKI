@@ -46,13 +46,14 @@ export class AppComponent {
   }
 
   private convertResponse(response) {
+    this.responses = [];
     response.forEach(element => {
       let entry = new Entry(
         element._source.title,
         element._source.text,
         element._source.opening_text,
         element._source.create_timestamp,
-        element._source.timestamp);
+        new Date(element._source.timestamp));
       this.responses.push(entry);
     });
   }
@@ -63,9 +64,9 @@ export class Entry {
   fullText: string;
   abstract: string;
   creationDate: string;
-  lastEditDate: string;
+  lastEditDate: Date;
 
-  constructor(title: string, fullText: string, abstract: string, creationDate: string, lastEditDate: string) {
+  constructor(title: string, fullText: string, abstract: string, creationDate: string, lastEditDate: Date) {
     this.title = title;
     this.fullText = fullText;
     this.abstract = abstract;

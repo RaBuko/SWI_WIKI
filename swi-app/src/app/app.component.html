@@ -12,6 +12,18 @@
       .search-box-container {
         text-align: center;
       }
+
+      .max-lines {
+        display: inline-block;/* or inline-block */
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        overflow: hidden;
+        max-height: 3.6em;
+        line-height: 1.8em;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
     </style>
 </head>
 <body>
@@ -26,6 +38,8 @@
   <textarea type="text" [(ngModel)]="output"></textarea>
   <div *ngFor="let entry of responses" style="margin-top:20px">
     <h4>{{entry.title}}</h4>
+    <p class="max-lines">{{entry.abstract}}</p>
+    <p style="color:green">{{entry.lastEditDate}}</p>
   </div>
 </body>    
 </html>
