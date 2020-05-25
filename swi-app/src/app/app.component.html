@@ -18,6 +18,8 @@
         text-overflow: ellipsis;
         word-wrap: break-word;
         overflow: hidden;
+        width: 800px;
+        line-height: 25px;
         max-height: 3.6em;
         line-height: 1.8em;
         display: -webkit-box;
@@ -35,9 +37,8 @@
     </div>
   </div>
   <h3 class="col-md-12 text-center">Elasticsearch server status: {{status}}</h3>
-  <textarea type="text" [(ngModel)]="output"></textarea>
   <div *ngFor="let entry of responses" style="margin-top:20px">
-    <h4>{{entry.title}}</h4>
+    <h3>{{entry.title}}</h3>
     <p class="max-lines">{{entry.abstract}}</p>
     <p style="color:green">{{entry.lastEditDate}}</p>
   </div>

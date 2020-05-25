@@ -44,4 +44,17 @@ export class ElasticsearchService {
       index: "enwikiquote",
     })
   }
+
+  sendRequestByTitle(query): any {
+    console.log("Send request by title: " + query);
+    return this.client.search({
+      body: {
+        "query": {
+          "match": {
+            "title": query
+          }
+        }
+      }
+    })
+  }
 }
