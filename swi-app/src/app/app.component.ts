@@ -12,7 +12,6 @@ export class AppComponent {
   isConnected = false;
   status: string;
   searchPhrase: string;
-  output: string;
   responses: Entry[];
 
   constructor(private es: ElasticsearchService, private cd: ChangeDetectorRef) {
@@ -36,13 +35,11 @@ export class AppComponent {
   getDocuments(query) {
     console.log(query);
     this.es.sendRequest(query).then(response => {
-      this.output = response.hits.hits[0]._source.title;
       this.convertResponse(response.hits.hits);
       console.log(response);
     }, error => {
       console.error(error);
     });
-    //this.output = this.es.sendRequest(query).toString();
   }
 
   private convertResponse(response) {
@@ -52,7 +49,7 @@ export class AppComponent {
         element._source.title,
         element._source.text,
         element._source.opening_text,
-        element._source.create_timestamp,
+        new Date(element._source.create_timestamp),
         new Date(element._source.timestamp));
       this.responses.push(entry);
     });
@@ -63,10 +60,10 @@ export class Entry {
   title: string;
   fullText: string;
   abstract: string;
-  creationDate: string;
+  creationDate: Date;
   lastEditDate: Date;
 
-  constructor(title: string, fullText: string, abstract: string, creationDate: string, lastEditDate: Date) {
+  constructor(title: string, fullText: string, abstract: string, creationDate: Date, lastEditDate: Date) {
     this.title = title;
     this.fullText = fullText;
     this.abstract = abstract;

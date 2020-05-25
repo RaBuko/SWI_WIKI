@@ -37,7 +37,6 @@
     </div>
   </div>
   <h3 class="col-md-12 text-center">Elasticsearch server status: {{status}}</h3>
-  <textarea type="text" [(ngModel)]="output"></textarea>
   <div *ngFor="let entry of responses" style="margin-top:20px">
     <h3>{{entry.title}}</h3>
     <p class="max-lines">{{entry.abstract}}</p>
