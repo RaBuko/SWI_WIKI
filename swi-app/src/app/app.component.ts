@@ -35,6 +35,7 @@ export class AppComponent {
   getDocuments(query) {
     console.log(query);
     this.es.sendRequest(query).then(response => {
+    //this.es.sendRequestByTitle(query).then(response => {
       this.convertResponse(response.hits.hits);
       this.sortResponses(SortType.noSort);
       console.log(response);
