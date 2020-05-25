@@ -32,7 +32,13 @@ export class AppComponent {
   }
 
   getDocuments(query) {
-    console.log(query);    
-    this.output = this.es.sendRequest(query).toString();
+    console.log(query);
+    this.es.sendRequest(query).then(response => {
+      this.output = response.hits.hits[0]._source.title;
+      console.log(response);
+    }, error => {
+      console.error(error);
+    });
+    //this.output = this.es.sendRequest(query).toString();
   }
 }
