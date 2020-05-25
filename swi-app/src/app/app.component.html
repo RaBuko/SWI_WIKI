@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .search-box-container {
+        text-align: center;
+      }
+    </style>
 </head>
 <body>
-	<img src="../assets/images/logo.png" />
-  <div class="topnav">
-      <input type="text" placeholder="Wpisz frazę..." [(ngModel)]="searchPhrase">
-      <button (click)="getDocuments(searchPhrase)">Szukaj</button>
-  </div> 
+  <img src="../assets/images/logo.png" class="center">
+  <div class="search-box-container">
+    <div class="topnav">
+        <input type="text" placeholder="Wpisz frazę..." [(ngModel)]="searchPhrase">
+        <button (click)="getDocuments(searchPhrase)">Szukaj</button>
+    </div>
+  </div>
   <h3 class="col-md-12 text-center">Elasticsearch server status: {{status}}</h3>
   <textarea type="text" [(ngModel)]="output"></textarea>
   <div *ngFor="let entry of responses" style="margin-top:20px">
