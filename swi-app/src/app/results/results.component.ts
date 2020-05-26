@@ -68,6 +68,16 @@ export class ResultsComponent {
       console.log("Sort: LastEditDate");
     }
 
+    if (this.shouldSearchByText && typeof this.searchText === 'undefined') {
+      this.shouldSearchByText = false;
+    }
+    if (this.shouldSearchByTitle && typeof this.searchTitle === 'undefined') {
+      this.shouldSearchByTitle = false;
+    }
+    if (!this.shouldSearchByText && !this.shouldSearchByTitle && typeof query === "undefined") {
+      return;
+    }
+
     if (this.shouldSearchByText && this.shouldSearchByTitle) {
       this.es.sendRequestCombined(this.searchText, this.searchTitle).then(response => {
         this.handleResponse(response, sortType);
