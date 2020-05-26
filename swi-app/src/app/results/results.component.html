@@ -34,10 +34,7 @@
       <input type="text" placeholder="Wpisz frazę..." [(ngModel)]="searchPhrase">
       <button (click)="getDocuments(searchPhrase)">Szukaj</button>
   </div>
-  <div>
-      <button (click)="changeShowAdvanced()">Szukanie zaawansowane</button>
-  </div>
-  <ng-container *ngIf="showAdvanced">
+  <ng-container>
     <div ng-show="showAdvanced" id="advancedSearchDiv">
         <input type="checkbox" id="searchByTitleCheckBox" [(ngModel)]="shouldSearchByTitle">
         <label for="searchByTitleCheckBox">Szukanie po tytule</label>

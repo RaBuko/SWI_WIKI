@@ -11,7 +11,7 @@
       }
 
       .search-box-container {
-        text-align: center;
+        text-align: left;
       }
 
       .max-lines {
@@ -39,43 +39,13 @@
     </style>
 </head>
 <body>
-  <img src="../assets/images/logo.png" class="center">
   <div class="search-box-container">
+    <img src="../assets/images/logo_small.png" style="float: left;" width="50">
+    <h1>SWI Quote Search</h1>
     <div class="topnav">
-        <input type="text" placeholder="Wpisz frazę..." [(ngModel)]="searchPhrase">
-        <button (click)="getDocuments(searchPhrase)">Szukaj</button>
+      <input type="text" placeholder="Wpisz frazę..." [(ngModel)]="searchPhrase">
+      <button (click)="getDocuments(searchPhrase)">Szukaj</button>
     </div>
-    <div>
-        <button (click)="changeShowAdvanced()">Szukanie zaawansowane</button>
-        <a routerLink="/results"><button class="btn btn-success pull-right" > Szukanie koleżanki twojej starej (new page)</button></a>
-    </div>
-    <ng-container *ngIf="showAdvanced">
-      <div ng-show="showAdvanced" id="advancedSearchDiv">
-          <input type="checkbox" id="searchByTitleCheckBox" [(ngModel)]="shouldSearchByTitle">
-          <label for="searchByTitleCheckBox">Szukanie po tytule</label>
-          <input type="text" placeholder="Tytuł..." [(ngModel)]="searchTitle">
-          <br>
-          <input type="checkbox" id="searchByTextCheckBox" [(ngModel)]="shouldSearchByText">
-          <label for="searchByTextCheckBox">Szukanie po tekście</label>
-          <input type="text" placeholder="Tekst..." [(ngModel)]="searchText">
-          <br>
-          <input type="checkbox" id="sortByCreationDateCheckBox" [(ngModel)]="sortByCreationDate">
-          <label for="sortByCreationDateCheckBox">Sortuj po dacie dodania</label>
-          <select name="sortType" id="sortByCreationDateSelect" [(ngModel)]="selectedSortCreationDate">
-            <option *ngFor="let o of sortCreationDateOptions">
-              {{o.name}}
-            </option>
-          </select>
-          <br>
-          <input type="checkbox" id="sortByLastEditDateCheckBox" [(ngModel)]="sortByLastEditDate">
-          <label for="sortByLastEditDateCheckBox">Sortuj po dacie edycji</label>
-          <select name="sortType" id="sortByLastEditDateSelect" [(ngModel)]="selectedSortLastEditDate">
-            <option *ngFor="let o of sortLastEditDateOptions">
-              {{o.name}}
-            </option>
-          </select>
-      </div>
-    </ng-container>
   </div>
   <h3 class="col-md-12 text-center">Elasticsearch server status: {{status}}</h3>
   <div *ngFor="let entry of responses" style="margin-top:20px">
