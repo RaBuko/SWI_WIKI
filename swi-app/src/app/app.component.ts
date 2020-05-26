@@ -13,6 +13,25 @@ export class AppComponent {
   status: string;
   searchPhrase: string;
   responses: Entry[];
+  showAdvanced = false;
+  sortByCreationDate = false;
+  sortByLastEditDate = false;
+  selectedSortCreationDate: SortType;
+  selectedSortLastEditDate: SortType;
+  shouldSearchByTitle = false;
+  shouldSearchByText = false;
+  searchTitle: string;
+  searchText: string;
+
+  sortCreationDateOptions = [
+    {name:"Malejąco", value: SortType.creationDateDesc},
+    {name:"Rosnąco", value: SortType.creationDateAsc}
+  ]
+
+  sortLastEditDateOptions = [
+    {name:"Malejąco", value: SortType.lastEditDateDesc},
+    {name:"Rosnąco", value: SortType.lastEditDateAsc}
+  ]
 
   constructor(private es: ElasticsearchService, private cd: ChangeDetectorRef) {
     this.isConnected = false;
@@ -32,12 +51,37 @@ export class AppComponent {
     });
   }
 
+  changeShowAdvanced() {
+    this.showAdvanced = !this.showAdvanced;
+  }
+
   getDocuments(query) {
     console.log(query);
+
+    let sortType = SortType.noSort;
+    if (this.sortByCreationDate) {
+      sortType = this.selectedSortCreationDate;
+      console.log("Sort: CreationDate");   
+    }
+    else if (this.sortByLastEditDate) {
+      sortType = this.selectedSortLastEditDate;
+      console.log("Sort: LastEditDate");      
+    }
+    else {
+      sortType = SortType.noSort;
+    }
+
+    if (this.shouldSearchByText) {
+      console.log("Text: " + this.searchText);
+    }
+    if (this.shouldSearchByTitle) {
+      console.log("Title: " + this.searchTitle);
+    } 
+
     this.es.sendRequest(query).then(response => {
     //this.es.sendRequestByTitle(query).then(response => {
       this.convertResponse(response.hits.hits);
-      this.sortResponses(SortType.noSort);
+      this.sortResponses(sortType);
       console.log(response);
     }, error => {
       console.error(error);
