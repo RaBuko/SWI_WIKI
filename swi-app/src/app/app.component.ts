@@ -68,23 +68,42 @@ export class AppComponent {
       console.log("Sort: LastEditDate");
     }
 
-    if (this.shouldSearchByText) {
+    if (this.shouldSearchByText && this.shouldSearchByTitle) {
+      this.es.sendRequestCombined(this.searchText, this.searchTitle).then(response => {
+        this.handleResponse(response, sortType);
+      }, error => {
+        console.error(error);
+      });
+    }
+    else if (this.shouldSearchByText) {
       console.log("Text: " + this.searchText);
+      this.es.sendRequestByText(this.searchText).then(response => {
+        this.handleResponse(response, sortType);
+      }, error => {
+        console.error(error);
+      });
     }
-    if (this.shouldSearchByTitle) {
+    else if (this.shouldSearchByTitle) {
       console.log("Title: " + this.searchTitle);
+      this.es.sendRequestByTitle(this.searchTitle).then(response => {
+        this.handleResponse(response, sortType);
+      }, error => {
+        console.error(error);
+      });
     }
+    else {
+      this.es.sendRequest(query).then(response => {
+        this.handleResponse(response, sortType);
+      }, error => {
+        console.error(error);
+      });
+    }
+  }
 
-    this.es.sendRequest(query).then(response => {
-      //this.es.sendRequestByTitle(query).then(response => {
-      //this.es.sendRequestCombined(query).then(response => {
-      //this.es.sendRequestByText(query).then(response => {
-      this.convertResponse(response.hits.hits);
-      this.sortResponses(sortType);
-      console.log(response);
-    }, error => {
-      console.error(error);
-    });
+  private handleResponse(response: any, sortType: SortType) {
+    this.convertResponse(response.hits.hits);
+    this.sortResponses(sortType);
+    console.log(response);
   }
 
   private convertLastEditDateSort(selection: string) {
