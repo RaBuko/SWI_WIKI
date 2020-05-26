@@ -16,21 +16,21 @@ export class AppComponent {
   showAdvanced = false;
   sortByCreationDate = false;
   sortByLastEditDate = false;
-  selectedSortCreationDate: SortType;
-  selectedSortLastEditDate: SortType;
+  selectedSortCreationDate: string;
+  selectedSortLastEditDate: string;
   shouldSearchByTitle = false;
   shouldSearchByText = false;
   searchTitle: string;
   searchText: string;
 
   sortCreationDateOptions = [
-    {name:"Malejąco", value: SortType.creationDateDesc},
-    {name:"Rosnąco", value: SortType.creationDateAsc}
+    { name: "Malejąco", value: SortType.creationDateDesc },
+    { name: "Rosnąco", value: SortType.creationDateAsc }
   ]
 
   sortLastEditDateOptions = [
-    {name:"Malejąco", value: SortType.lastEditDateDesc},
-    {name:"Rosnąco", value: SortType.lastEditDateAsc}
+    { name: "Malejąco", value: SortType.lastEditDateDesc },
+    { name: "Rosnąco", value: SortType.lastEditDateAsc }
   ]
 
   constructor(private es: ElasticsearchService, private cd: ChangeDetectorRef) {
@@ -60,15 +60,12 @@ export class AppComponent {
 
     let sortType = SortType.noSort;
     if (this.sortByCreationDate) {
-      sortType = this.selectedSortCreationDate;
-      console.log("Sort: CreationDate");   
+      sortType = this.convertCreationDateSort(this.selectedSortCreationDate);
+      console.log("Sort: CreationDate");
     }
     else if (this.sortByLastEditDate) {
-      sortType = this.selectedSortLastEditDate;
-      console.log("Sort: LastEditDate");      
-    }
-    else {
-      sortType = SortType.noSort;
+      sortType = this.convertLastEditDateSort(this.selectedSortLastEditDate);
+      console.log("Sort: LastEditDate");
     }
 
     if (this.shouldSearchByText) {
@@ -76,18 +73,40 @@ export class AppComponent {
     }
     if (this.shouldSearchByTitle) {
       console.log("Title: " + this.searchTitle);
-    } 
+    }
 
     this.es.sendRequest(query).then(response => {
-    //this.es.sendRequestByTitle(query).then(response => {
-    //this.es.sendRequestCombined(query).then(response => {
-    //this.es.sendRequestByText(query).then(response => {
+      //this.es.sendRequestByTitle(query).then(response => {
+      //this.es.sendRequestCombined(query).then(response => {
+      //this.es.sendRequestByText(query).then(response => {
       this.convertResponse(response.hits.hits);
       this.sortResponses(sortType);
       console.log(response);
     }, error => {
       console.error(error);
     });
+  }
+
+  private convertLastEditDateSort(selection: string) {
+    switch (selection) {
+      case "Malejąco": {
+        return SortType.lastEditDateDesc;
+      }
+      case "Rosnąco": {
+        return SortType.lastEditDateAsc;
+      }
+    }
+  }
+
+  private convertCreationDateSort(selection: string) {
+    switch (selection) {
+      case "Malejąco": {
+        return SortType.creationDateDesc;
+      }
+      case "Rosnąco": {
+        return SortType.creationDateAsc;
+      }
+    }
   }
 
   private convertResponse(response) {
@@ -126,25 +145,25 @@ export class AppComponent {
   }
 
   private sortResponsesByLastEditDateDesc() {
-    this.responses.sort(function(lhs: Entry, rhs: Entry) {
+    this.responses.sort(function (lhs: Entry, rhs: Entry) {
       return rhs.lastEditDate.getTime() - lhs.lastEditDate.getTime();
     })
   }
 
   private sortResponsesByCreationDateDesc() {
-    this.responses.sort(function(lhs: Entry, rhs: Entry) {
+    this.responses.sort(function (lhs: Entry, rhs: Entry) {
       return rhs.creationDate.getTime() - lhs.creationDate.getTime();
     })
   }
 
   private sortResponsesByLastEditDateAsc() {
-    this.responses.sort(function(lhs: Entry, rhs: Entry) {
+    this.responses.sort(function (lhs: Entry, rhs: Entry) {
       return lhs.lastEditDate.getTime() - rhs.lastEditDate.getTime();
     })
   }
 
   private sortResponsesByCreationDateAsc() {
-    this.responses.sort(function(lhs: Entry, rhs: Entry) {
+    this.responses.sort(function (lhs: Entry, rhs: Entry) {
       return lhs.creationDate.getTime() - rhs.creationDate.getTime();
     })
   }
