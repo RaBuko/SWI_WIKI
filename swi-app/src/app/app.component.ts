@@ -80,6 +80,8 @@ export class AppComponent {
 
     this.es.sendRequest(query).then(response => {
     //this.es.sendRequestByTitle(query).then(response => {
+    //this.es.sendRequestCombined(query).then(response => {
+    //this.es.sendRequestByText(query).then(response => {
       this.convertResponse(response.hits.hits);
       this.sortResponses(sortType);
       console.log(response);
